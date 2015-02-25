@@ -1,0 +1,212 @@
+ESSID		MAC		SERIAL		K	Q		PSK
+Alice-36298285	00238E15A02D	67902X0275250	13	32720035	q1u2siogcxtuohid5e3fd8h1
+
+esempio pratico:
+13 * 275250 + 32720035 = 36.298.285
+
+... segue ...
+
+13 * 346429 + 32720035 = 37.678.625
+
+proviamo il successivo:
+13 * 346430 + 32720035 = 37.223.625 <- sbenf, siamo fuori.
+
+dobbiamo trovare un Q adatto a generare l'essid 37.678.638 (37.678.625 + 13)
+13 * 346430 + Q = 37678638, Q = 33175048
+
+ne consegue:
+13 * 346430 + 33175048 = 37.678.638
+13 * 346431 + 33175048 = 37.678.651
+
+... segue ...
+
+e cosi' via.
+
+
+
+
+
+
+piu' si e' lontani dal Q, piu' il seriale si alza:
+
+  Alice-96071170
+    Q = 96017051
+   sn =  0004163 <----,
+   dQ = 54.119 / 13 = 4.163
+
+  Alice-96634889
+    Q = 96214846
+   sn =  0032311 <-----,
+   dQ = 420.043 / 13 = 32.311
+
+si potrebbe dire che il limite inferiore per un essid al rispettivo Q e' Q+13, il quale generera' seriale '1'
+-----
+e se il seriale minimo fosse 0 e Q fosse lo 'start' di produzione?
+questo vorrebbe dire che Q rimane valido fino a
+
+quindi Q = essid - (sn * k)
+
+esempio:
+Alice-57743199 67902X0201789 ("577,67902,8,56128887,002553";)
+  Q = 57743199 - (201789 * 8)              |
+      57743199 - 1.614.312 = 56.128.887 <--+
+
+
+
+questi sono vicini, notate bene:
+
+
+
+
+
+
+
+Alice-95022395 67902X0014690 ("950,67902,13,94831425,001D8B";)-+
+  Q = 95022395 - (14690 * 13)               |                  | distanza fra Q = 403 / 13 = 31 ; 14788 - 31 = 14757 * 13 + 94831425 = 95023266
+      95022395 - 190.970 = 94.831.425 <-----+                  | 
+                                                               | distanza fra S = 98           
+Alice-95023266 67902X0014788 ("950,67902,13,94831022,001D8B";)-+
+  Q = 95023266 - (14788 * 13)               |
+      95023266 - 192.244 = 94.831.022 <-----+
+
+
+
+
+
+
+
+
+Alice-95271891 67902X0034058 ("952,67902,13,94829137,001D8B";)
+  Q = 95271891 - (34058 * 13)               |
+    = 95271891 - 442.754 = 94.829.137 <-----+
+
+
+
+
+
+I  Q SONO TUTTI IN SEQUENZA, PARTENDO DA UNO E TOGLIENDO 13 SI TROVANO TUTTI GLI ALTRI
+QUINDI PER OGNI Q-13 CORRISPONDE essid = (sn+q+13) / k 
+ovvero
+
+Alice-95022395 = (13 * SN) + Q
+essid = (13 * 14690) + 94831425 = 95022395
+
+Q-=13
+essid = (13 * 14690) + 94831412 = 95022382
+essid = (13 * 14691) + 94831412 = 95022395
+
+
+
+
+
+
+
+
+Alice-95271891 - Alice-95023266 = 19125
+e se fosse il seriale massimo del secondo essid? proviamo
+         Q = essid    - (sn    *  k)
+  94831022 = 95079647 - (19125 * 13)
+questo vuol dire che a 95079647 + 13 cambiera' Q e il seriale non sara' valido
+  sn = (essid - q) / k
+     = (95079660 - 94831022) / 13 = 19126
+
+
+
+
+
+
+
+
+
+
+
+[b]nota bene: questo e' solo un flash, un brainstorming, ma vedo luce in fondo al tunnel. prego ragionateci, proponete, dite, fate, codate[/b].
+
+[b]1) famiglie di mac note per apparati agpf, ordinati crescenti in base all'ultima cifra:[/b]
+001D8B da 01000005 a 01326591
+001CA2 da 33554432 a 34881023
+00238E da 34881024 a 50331647
+002233 da 50331648 a 67108863 in k 8
+002553 da 50331648 a 67108863 in k 13
+001D8B da 84549376 a 99999993
+
+sappiamo che il mac e' ottenuto dalla trasformazione in notazione esadecimale del numero intero essid, la cui prima cifra corrispondera' all'ultima della famiglia (esempio: 00:22:3[3]:70:38:4A, essid Alice-57686090). quando questo non accade, l'essid e' paddato con valore 1 o 2, risultante da uno shift di 57bit della moltiplicazione tra 7 cifre del bssid e il valore fisso 0x55E63B89 (esempio: Alice-36298285 -> 00:23:8[E|2]29:DE:2D, non corrisponde; effettuando il controllo sul bssid si ottiene una hiword di 2, quindi: Alice-[2]36298285 -> 00:23:8[E]:15:A0:2D. ora corrisponde :)). sapendo questo, possiamo facilmente dedurre che le serie di essid saranno limitate tra l'ultima cifra della famiglia di mac e l'ultimo valore prima della cifra successiva (esempio: 00:23:8E:00:00:00 fino a 00:23:8E:FF:FF:FF). conoscendo le famiglie usate (vedere punto 1) possiamo quindi trovare tutti i limiti esistenti. procediamo:
+
+[b]2) limiti di essid per ogni famiglia:[/b]
+001CA2 = 00:1C:A2:00:00:00 -> 00:1C:A2:FF:FF:FF = 0x02000000 -> 0x02FFFFFF = Alice-33554432 (0) -> Alice-50331647 (0)
+00238E = 00:23:8E:00:00:00 -> 00:23:8E:FF:FF:FF = 0x0E000000 -> 0x0EFFFFFF = Alice-34881024 (2) -> Alice-51658239 (2)
+002233 = 00:22:33:00:00:00 -> 00:22:33:FF:FF:FF = 0x03000000 -> 0x03FFFFFF = Alice-50331648 (0) -> Alice-67108863 (0)
+002553 = 00:25:53:00:00:00 -> 00:25:53:FF:FF:FF = 0x03000000 -> 0x03FFFFFF = Alice-50331648 (0) -> Alice-67108863 (0) (qui k = 8 ;))
+001D8B = 00:1D:8B:00:00:00 -> 00:1D:8B:FF:FF:FF = 0x0B000000 -> 0x0BFFFFFF = Alice-84549376 (1) -> Alice-01326591 (2)
+
+ecco quindi tutti gli essid (e quindi seriali) possibili sugli agpf. da notare come in 00:1d:8b vi sia un cambio di padding nel bel mezzo della serie, questo si deve al fatto che parte da 184.549.376 (notare 1 di pad) e finisce a 201.326.591 (pad 2), di conseguenza c'e' uno switch da pad 1 a pad 2 precisamente all'essid Alice-99999993 (ultimo essid possibile fra tutti, paddato 1).
+
+assumendo non vi siano essid con le prime due cifre uguali a 0, possiamo ordinare i limiti per essid derivando:
+
+Alice-01000005 -> Alice-01326591 (+=13)
+Alice-33554432 -> Alice-50331647 (+=13)
+Alice-34881024 -> Alice-51658239 (+=13, che va ad integrarsi nella precedente)
+Alice-50331648 -> Alice-67108863 (+=13 && +=8)
+Alice-84549376 -> Alice-99999993 (+=13)
+
+da notare inoltre come sottraendo e addizionando alcuni limiti contigui otterremo sempre il limite massimo di 001d8b+1:
+
+Alice-51658239 - Alice-50331647 = Alice-01326592
+Alice-34881024 - Alice-33554432 = Alice-01326592
+
+siccome vi e' una sovrapposizione di mac tra 00:22:33 e 00:25:53, gli essid generati in quest'ultima famiglia seguono uno stepping di 8 per non sovrapporsi agli altri, generati secondo lo step +13; ne consegue che k=8 solo ed esclusivamente per gli apparati con famiglia 00:25:53, ovvero per tutti gli essid tra Alice-50331648 e Alice-67108863, ma SOLO ED ESCLUSIVAMENTE quelli divisibili per 8 :)
+
+esempio:
+
+Alice-50331648 / 13 = 3.871.665,230769231 ... Alice-50331648 / 8  = 6.291.456 -> k = 8
+Alice-50331658 / 8  = 6.291.457,25        ... Alice-50331658 / 13 = 3.871.666 -> k = 13
+
+e cosi' via.
+
+
+[b]3) quindi?[/b]
+- sapendo che a tale famiglia corrisponde tale range di essid
+- sapendo che gli essid seguono uno step di 13 tranne che in una famiglia specifica dove seguono ANCHE step di 8
+- sapendo che i seriali sono tutti in sequenza con step 1 indipendentemente dalla famiglia
+- sapendo che essid  = (k * serial) + Q
+- sapendo che serial = (ssid - Q) / k
+- sapendo che k = 13 se non in 002553 dove e' ANCHE 8
+- conoscendo almeno un valore di seriale certo nella serie
+
+[b]deduciamo che:[/b]
+- serial = (int(mac) - Q) / 13
+- con un Q noto e certo possiamo derivare un seriale noto e certo per una famiglia
+- tutti i seriali sono derivabili a partire da uno noto come base, salendo e scendendo rispettando il limite
+- tutti i valori di Q sono derivabili a partire da una base nota; quando Q cambia basta ricalcolarlo in base all'essid che dovrebbe seguire stando allo step in vigore e alla famiglia di mac di appartenenza
+- (volendo) e' possibile generare una tabella di psk valide per tutti gli agpf
+
+[b]4) caveats:[/b]
+- in base a quale fattore cambia la serie di produzione? (6910[1-4] && 6790[1-4])
+- valerio3 ed il suo ragionamento: http://www.wh.comze.com/viewtopic.php?p=225#p225 riguardante gli errori di produzione e il salto di serie
+
+
+
+
+
+limiti:
+001d8 b000000 -> bffffff => 1|84549376 -> 2|01326591
+001ca 2000000 -> 2ffffff =>   33554432 ->   50331647
+00255 3000000 -> 3ffffff =>   50331648 ->   67108863
+00223 3000000 -> 3ffffff =>   50331648 ->   67108863
+00238 e000000 -> effffff => 2|34881024 -> 2|51658239
+0017C 2000000 -> 2ffffff =>   33554432 ->   50331647
+00268 d000000 -> dffffff => 2|18103808 -> 2|34881023
+
+limite basso: Alice-01326591 (00:1D:8B:00:00:00 + pad 2)
+ limite alto: Alice-99999989 (00:1D:8B:EB:C1:F5 + pad 1)
+
+limiti essid derivati in base a mac noti:
+
+01000005 -> 01326591
+18103808 -> 34881023
+33554432 -> 50331647
+50331648 -> 67108863
+84549376 -> 99999989
+
+
+
