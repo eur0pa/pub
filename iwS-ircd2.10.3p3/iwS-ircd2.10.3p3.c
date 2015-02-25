@@ -52,8 +52,8 @@ int     main(int argc, char *argv[])
 
     if(argc == 1)
     {
-            usage(argv[0]);
-            exit(0);
+        usage(argv[0]);
+        exit(0);
     }
 
     while((options = getopt(argc, argv, "ht:o:")) != EOF)
