@@ -134,7 +134,6 @@ class LURKER(threading.Thread):
                         if self.__check_submission(post):
                             _print(post.title)
                             post.upvote()
-                            self.irc.announce('mon', sub, post.title, post.short_link)
                             t = threading.Thread(target=self.irc.announce, args=(irc_chan, sub, post.title, post.short_link))
                             t.daemon = True
                             t.start()
