@@ -1,0 +1,299 @@
+INDICE
+------
+1. Introduzione    [LG010]
+2. Sviluppi        [LG020]
+3. La logica       [LG030]
+4. Problema        [LG040]
+5. Ricapitolando   [LG050]
+6. Il breakthrough [LG060]
+7. Metodi          [LG070]
+ 7.1 Metodo 1      [LG071]
+ 7.2 Metodo 2      [LG072]
+ 7.3 Metodo 3      [LG073]
+ 7.4 Metodo 4      [LG074]
+ 7.5 Metodo 5      [LG075]
+ 7.6 Metodo 6      [LG076]
+ 7.7 Metodo 7      [LG077]
+ 7.8 Metodo 8      [LG078]
+ 7.9 Altri metodi  [LG079]
+8. Conclusioni     [LG080]
+9. Riconoscimenti  [LG090]
+
+INTRODUZIONE
+------------
+Recentemente, la LG Electronics ha iniziato a produrre dei televisori con integrata la funzione di media player DivX (con tutti i formati che ne conseguono: XviD, x264/h264 incapsulati in MKV fino a 1080p, i vecchi DivX ;-) 3.11 alpha, MPEG1/2 e via discorrendo); rendendo possibile a chi acquistasse un modello di fascia alta di attaccare un pendrive USB o un hard-disk esterno via USB e godersi la propria libreria multimediale legalmente acquisita tramite i vari retailers di digital download.
+
+Fin qui tutto normale.
+Allora sorse un lecito dubbio: perché mai anche i pannelli economici furono dotati di porta USB? Il manuale ci dice che viene usata per assistenza. Un po' generico.
+
+Col tempo, si è scoperto che tra i televisori di fascia alta e quelli di fascia bassa non c'è alcuna differenza sostanziale a livello hardware: sono solo configurati diversamente a livello software, limitandone dal firmware le capacità; questo vuol dire che possono essere sbloccati per raggiungere le stesse features della fascia alta (media player, THX mode etc).
+
+
+SVILUPPI
+--------
+Nei "vecchi" modelli (firmware 3.15 ed inferiori) lo sblocco poteva essere eseguito in due minuti con il telecomando in dotazione (metodo #1 e metodo #2), ma questa possibilità è stata eliminata grazie ai nuovi firmware (e non pensate male, gli updates apportano reali migliorie al sistema nonché ulteriore supporto al mediaplayer con codec aggiornati) perciò, per effettuare lo sblocco, si è resa necessaria una pratica a mio avviso molto scomoda nonché rischiosa: downgrade del firmware a 3.15, sblocco e upgrade all'ultima versione disponibile (metodo #3).
+
+Questo è stato, di gran lunga, il metodo più utilizzato e noto nella rete - ci sono innumerevoli thread sparsi su svariati forum dove si spiega passo-passo cosa e come. E' efficace ma ci sono dei dubbi su quanto possa influire sulla garanzia dell'apparecchio (alcuni dicono influisca, altri dicono di no), senza contare che flashare firmware non è proprio una cosa immediata ai più ed il risultato sono alcuni TV da buttare (vedere i set prodotti in USA, Canada e Asia; o quelli prodotti da Ottobre 2009 in poi).
+
+In Ottobre 2009 sono stati prodotti i nuovi pannelli con firmware 3.47 e 3.48, con ulteriori protezioni nei confronti di queste modifiche amatoriali - difatti, cercando di downgradare un TV al firmware v3.15 partendo da 3.47 o 3.48 si creano problemi al processore grafico e si costringe l'utente a mandare la TV in assistenza, dove verrà riflashato il firmware 3.48 e tolta la modifica effettuata. Da qui si deduce come in caso di acquisto di un modello con firmware 3.47 o 3.48, la modifica non solo non sia possibile, ma tantomeno consigliata.
+
+
+LA LOGICA
+---------
+Ma qualcuno deve poter accedere ai setting nascosti dell'apparecchio, specie in caso di problemi. E' ovvio che non debba essere accessibile all'utente finale, ma un modo deve esserci. Girando per la rete e leggendo i vari manuali di servizio e i datasheet, si scopre l'esistenza un telecomando particolare, un telecomando di servizio, il cosidetto "LG Adjust Remocon" (nickname del telecomando modello LG 105-201M) che, oltre ad avere le normali funzioni di un telecomando compatibile con tutti i modelli LG ha due tasti aggiuntivi: "IN START" e "ADJ". Leggendo i manuali di servizio scopriamo come questi due tasti siano responsabili dell'apertura di due menu riservati di servizio: il menu IN-START (per l'appunto) e il menu EZ ADJUST. Provate ad indovinare: cosa si trova fra le opzioni di quel menu?
+Esattamente. Sono gli stessi due menu che potevano essere attivati mediante il metodo #1 e metodo #2 sui firmware 3.15 o inferiori. Ma allora, se i menu sono ancora accessibili e la funzione è ancora presente, cosa impedisce all'utente finale di comprare il telecomando e sbloccarsi la TV?
+
+Nulla. Servitevi pure, comprate il telecomando ed effettuate la modifica (metodo #4).
+
+
+PROBLEMA
+--------
+Il telecomando costa. Lasciatevelo dire, sarebbe stupido spendere 60 euro per un telecomando da usare una volta sola nella vostra vita (o ogni volta che comprate un televisore LG) quando con 100 euro vi portate a casa un media player standalone come il Popcorn o il WD.
+
+
+RICAPITOLANDO
+-------------
+Aprire il menu di servizio funziona solo sui vecchi TV, i firmware successivi richiedono downgrade e quelli nuovi rendono inutilizzabile la TV quando ci si prova. Si potrebbe acquistare regolarmente il telecomando di servizio, ma il costo eccessivo non ne giustifica l'utilizzo. Ma allora, cosa fare?
+
+
+IL BREAKTHROUGH
+---------------
+Se c'è una cosa di cui possiamo essere sicuri è che sia il menu che la funzione sono ancora lì, esattamente dov'erano con il firmware 3.15 e sappiamo che c'è un telecomando che può darvi accesso a tale menu. Cos'è un telecomando? E' un PCB con una batteria che, alla pressione di un tasto, invia degli impulsi luminosi sullo spettro degli infrarossi al ricevitore sulla TV (dalle parti del led di accensione). Codici particolari, sì, ma non segreti; non riservati; non imperscrutabili (difatti basta puntare il telecomando verso una webcam per aver riscontro visivo degli impulsi che vengono trasmessi). Se solo si riuscissero a ricavare questi impulsi, si potrebbero aprire i menu di servizio di *qualunque* televisore LG a prescindere dal firmware.
+
+Grazie a svariati forum russi, bulgari e d'oltreoceano, è saltato fuori un dump dei codici infrarossi di tale telecomando; tuttavia creato per un software obsoleto, funzionante solo su dei palmari con Windows Mobile 5 e 6 (metodo #5), limitandone tantissimo l'uso. Dopo aver contattato il team di sviluppo ed aver fatto convertire il profilo ad uno da me utilizzabile (Symbian, metodo #6), è iniziato il dump selvaggio dei codici via WinLIRC tramite un ricevitore IR su porta RS232. Da lì, la creazione del profilo per l'EZ MENU e, successivamente, analizzando l'onda sonora quadra prodotta dal secondo tasto, gli impulsi per l'IN START menu. Il resto è storia. (metodo #7 e metodo #8).
+
+Veniamo al dunque.
+
+
+METODO 1
+--------
+Requisiti: televisore LG con porta USB e firmware minore o uguale alla versione 3.15
+--------
+- Premere il tasto OK sul telecomando e OK sul televisore contemporaneamente
+- Attendere 5 secondi
+- Inserire 0000 (quattro volte zero) nel campo password
+- Selezionare la voce Tool Option3
+- Impostare la voce EMF(JPEG,MP3) a 1
+- Impostare la voce Divx a HD
+- Premere tasto Exit
+
+
+METODO 2
+--------
+Requisiti: televisore LG con porta USB e firmware minore o uguale alla versione 3.15
+--------
+- Premere il tasto MENU sul telecomando e MENU sul televisore contemporaneamente
+- Attendere 5 secondi
+- Inserire 0000 (quattro volte zero) nel campo password
+- Impostare la voce Tool Option3 a 50592
+- Premere tasto Exit
+
+
+METODO 3
+--------
+Requisiti: pendrive USB, televisore LG con porta USB e firmware compreso tra 3.20 e 3.40
+--------
+- Formattare la pendrive USB in FAT32 o NTFS
+- Creare al suo interno una cartella LG_DTV
+- Scaricare il firmware 3.15 da http://devil-strike.host22.com/LG_DTV_v3.15.zip
+- Estrarre il file con estensione EPK all'interno della cartella LG_DTV sulla pendrive
+- Inserire il pendrive nella porta USB della TV
+- Premere il tasto MENU
+- Selezionare la voce OPTIONS senza premere il tasto OK
+- Premere sette volte il tasto FAV
+- Seguire le istruzioni ed effettuare il downgrade
+- Spegnere la TV e riaccenderla
+- Premere il tasto OK sul telecomando e OK sul televisore contemporaneamente
+- Attendere 5 secondi
+- Inserire 0000 (quattro volte zero) nel campo password
+- Selezionare la voce Tool Option3
+- Impostare la voce EMF(JPEG,MP3) a 1
+- Impostare la voce Divx a HD
+- Premere tasto Exit
+- Scaricare il firmware 3.40 da http://devil-strike.host22.com/LG_DTV_v3.40.rar
+- Cancellare il file con estensione EPK all'interno della cartella LG_DTV sulla pendrive
+- Estrarre il nuovo file con estensione EPK all'interno della cartella LG_DTV sulla pendrive
+- Inserire la pendrive nella porta USB della TV
+- Premere il tasto MENU
+- Selezionare la voce OPTIONS senza premere il tasto OK
+- Premere sette volte il tasto FAV
+- Seguire le istruzioni ed effettuare il downgrade
+- Spegnere la TV e riaccenderla
+
+
+METODO 4
+--------
+Requisiti: telecomando modello LG 105-201M, televisore LG con porta USB
+--------
+- Premere il tasto ADJ
+- Inserire 0000 (quattro volte zero) nel campo password
+- Selezionare la voce Tool Option3
+- Impostare la voce EMF(JPEG,MP3) a 1
+- Impostare la voce Divx a HD
+- Premere tasto Exit
+
+
+METODO 5
+--------
+Requisiti: palmare PPC con porta infrarossi Windows Mobile 5 o 6, televisore LG con porta USB
+--------
+- Scaricare NoviiRemote per Windows Mobile da http://www.novii.tv/pocketpc/deluxe/download.php
+- Scaricare il profilo del telecomando di servizio da http://www.avforums.com/forums/attachments/lg-owners-forum/141716d1254827111-lg-remocon-code-base-novii-remote-lg-remocon-code-base-.rar
+- Installare NoviiRemote ed importare la code-base appena scaricata
+- Utilizzare la voce LG Remocon per aprire il menu di servizio
+- Inserire 0000 (quattro volte zero) nel campo password
+- Selezionare la voce Tool Option3
+- Impostare la voce EMF(JPEG,MP3) a 1
+- Impostare la voce Divx a HD
+- Premere tasto Exit
+
+nota: assicurarsi di tener premuto il tasto mentre si muove il telefono davanti al ricevitore.
+
+
+METODO 6
+--------
+Requisiti: smartphone con Symbian S60v2 (Nokia 6600 testato) con porta infrarossi, televisore LG con porta USB
+--------
+- Scaricare NoviiRemote per Nokia 6600 da http://www.novii.tv/symbian/nrnokia/download.php
+- Scaricare il profilo del telecomando di servizio da http://sharebee.com/4cb32b26
+- Installare NoviiRemote ed importare la code-base appena scaricata
+- Utilizzare la voce LG2
+- Premere il tasto # per scorrere ai tasti successivi
+- Premere e tenere premuto il tasto 0 (zero) sul telefono per aprire il menu di servizio
+- Inserire 0000 (quattro volte zero) nel campo password
+- Selezionare la voce Tool Option3
+- Impostare la voce EMF(JPEG,MP3) a 1
+- Impostare la voce Divx a HD
+- Premere tasto Exit
+
+nota: assicurarsi di tener premuto il tasto mentre si muove il telefono davanti al ricevitore.
+
+
+METODO 7
+--------
+Requisiti: smartphone Nokia con Symbian S60v3 (Nokia E71 testato) con porta infrarossi ed accesso internet, televisore LG con porta USB
+--------
+- Scaricare Psiloc IrRemote per Nokia da http://shop.psiloc.com/en/Download,262308/Psiloc_irRemote_S603rd.sisx
+- Installare e lanciare l'applicazione
+- Aprire il menu e scegliere ADD DEVICE
+- Fare REFRESH
+- Scegliere TV
+- Fare REFRESH
+- Scegliere (o digitare) LG (non L.G. o LG Electronics, semplicemente LG)
+- Fare REFRESH
+- Scegliere (o digitare) IN-START Service Menu + EZ Adjust Service Menu
+- Fare REFRESH
+- Scegliere mon e installare il profilo
+- Premere il tasto 1 per aprire il menu IN START o il tasto 2 per il menu EZ ADJUST (consigliato: 2)
+- Inserire 0000 (quattro volte zero) nel campo password
+- Selezionare la voce Tool Option3
+- Impostare la voce EMF(JPEG,MP3) a 1
+- Impostare la voce Divx a HD
+- Premere tasto Exit
+
+nota: provare diversi metodi di trasmissione (selezionabili nei settings) e assicurarsi di tener premuto il tasto mentre si muove il telefono davanti al ricevitore.
+
+
+METODO 8 (solo per esperti)
+--------
+Requisiti: trasmettitore infrarossi per PC, televisore LG con porta USB
+--------
+- Creare un nuovo profilo LIRC:
+
+#
+# this config file was automatically generated
+# using WinLIRC 0.6.5 (LIRC 0.6.1pre3) on Fri Nov 06 09:28:29 2009
+#
+# contributed by h.rorschach / mon
+#
+# brand: LG
+# model: IN-START Service Menu + EZ Adjust Service Menu
+# supported devices: LG
+#
+
+begin remote
+
+  name   LG_SERVICE_MENU
+  flags RAW_CODES
+  eps            55
+  aeps          100
+
+  ptrail        534
+  repeat  9145  2222
+  gap    40702
+
+
+      begin raw_codes
+
+          name IN_START
+             9000    4600     550     600     550     600
+              550    1700     550     600     550     600
+              550     600     550     600     550     600
+              550    1700     550    1700     550     600
+              550    1700     550    1700     550    1700
+              550    1700     550    1700     550    1700
+              550    1700     550     600     550    1700
+              550    1700     550    1700     550    1700
+              550    1700     550     600     550     600
+              550    1700     550     600     550     600
+              550     600     550     600     550     600
+              550     600
+
+          name EZ_ADJUST
+             9000    4600     550     600     550     600
+              550    1700     550     600     550     600
+              550     600     550     600     550     600
+              550    1700     550    1700     550     600
+              550    1700     550    1700     550    1700
+              550    1700     550    1700     550    1700
+              550    1700     550    1700     550    1700
+              550    1700     550    1700     550    1700
+              550    1700     550     600     550     600
+              550     600     550     600     550     600
+              550     600     550     600     550     600
+              550     600 
+
+      end raw_codes
+
+end remote
+
+
+- Importarlo in LIRC
+- Trasmettere l'impulso desiderato
+- Utilizzare il metodo #1 o #2 per effettuare la modifica
+
+
+ALTRI METODI
+------------
+Con il LIRC dump sopra riportato sono possibili infinite combinazioni di software. LIRC e' un formato abbastanza diffuso e standardizzato da essere compatibile con software diversi su piattaforme diverse, nonche' convertibile ad altri formati proprietari (vedere Psiloc IrRemote). Insomma, pane, salame e coltello l'avete, vedete un po' che farci.
+
+
+CONCLUSIONI
+-----------
+I metodi che utilizzano il trick OK+OK, MENU+MENU, il telecomando di servizio o i suoi impulsi sono legali (a nessuno viene impedito di acquistare il telecomando di servizio) e non invalidano la garanzia; i metodi di flash sono in zona grigia e possono causare danni. Scegliete bene.
+
+
+RICONOSCIMENTI
+--------------
+HWUpgrade, thread relativo all'argomento:
+http://www.hwupgrade.it/forum/showthread.php?t=2061369
+
+AVForums.com, thread relativo all'argomento:
+http://www.avforums.com/forums/lg-owners-forum/1012225-usb-port-new-lg-lcd-lh-series.html
+
+SetCom.bg, thread relativo all'argomento:
+http://forum.setcom.bg/index.php?&topic=41474.0
+
+mon (#linux-it @ IRCnet)
+hristoslav2 (AVForums.com)
+
+http://i36.tinypic.com/2w5ougp.jpg
+http://i33.tinypic.com/fbjhmr.jpg
+http://i33.tinypic.com/fbb4lx.jpg
+http://i33.tinypic.com/23mugif.jpg
+http://i33.tinypic.com/120i25i.jpg
+http://i35.tinypic.com/f0thi.jpg
+http://i37.tinypic.com/dcxxeu.jpg
+
+http://i35.tinypic.com/mhcby9.jpg
+http://i38.tinypic.com/ief5lx.jpg
